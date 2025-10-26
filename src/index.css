@@ -1,40 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
 
 @theme {
   --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
 
-  --color-primary-purple: var(--color-primary-purple);
-  --color-second-purple: var(--color-second-white);
-
-  --color-primary-white: var(--color-primary-white);
-  --color-background-white: var(--color-background-white);
-
-  --color-primary-grey: var(--color-primary-grey);
-  --color-stroke-grey: var(--color-stroke-grey);
-  --color-primary-black: var(--color-primary-black);
-
-  --color-primary-red: var(--color-primary-red);
+  --color-primary-purple: #AFB0E2;
+  --color-second-purple: #9899D8;
+  --color-primary-white: #ffffff;
+  --color-background-white: #F9FAFB;
+  --color-primary-grey: #6B7280;
+  --color-stroke-grey: #ECECEC;
+  --color-primary-black: #2E353A;
+  --color-primary-red: #CC0102;
 
   --shadow-basic: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 :root {
   font-family: "Roboto", sans-serif;
-  color: #2E353A;
-  --color-primary-purple: #AFB0E2;
-  --color-second-purple: #9899D8;
-  --color-primary-white: #ffffff;
-  --color-background-white: #F9FAFB;
-
-  --color-primary-grey: #6B7280;
-  --color-stroke-grey: #ECECEC;
-  --color-primary-black: #2E353A;
-
-  --color-primary-red: #CC0102;
-  /* line-height: 1.5;
-  font-weight: 400;
+  color: var(--color-primary-black);
+  /* line-height: 1; */
+  /* font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
