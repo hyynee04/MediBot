@@ -40,6 +40,20 @@ body {
   font-size: 14px;
 }
 
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-background-white); /* blue-400 */
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent; /* gray-200 */
+  }
+}
+
+
 /* a {
   font-weight: 500;
   color: #646cff;
