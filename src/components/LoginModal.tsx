@@ -1,33 +1,44 @@
 import { motion } from "framer-motion"
-import InputCustom from "../components/InputCustom"
+import InputCustom from "./InputCustom"
 import { useNavigate } from "react-router-dom"
 import { paths } from "../routes/paths"
 import { useState } from "react"
-
-const LoginPage = () => {
+interface LoginModalProps {
+    onClose: () => void;
+    onOpenSignup: () => void;
+}
+const LoginModal = ({ onClose, onOpenSignup }: LoginModalProps) => {
     const navigate = useNavigate()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const handleLogin = () => {
         if (username == "username" && password == "password") {
-            navigate(paths.root)
+            onClose();
+            navigate(paths.chatbot)
         } else {
             setError("Sai username/password")
         }
     }
     const handleGotoSignup = () => {
-        navigate(paths.signup)
+        onClose();
+        onOpenSignup();
     }
     return (
         <>
-            <div className="h-screen w-screen flex items-center justify-center bg-background-white">
+            <div className="fixed inset-0 z-50 flex items-center justify-center">
+                {/* Overlay xám mờ */}
+                <div
+                    className="absolute inset-0 bg-black/50"
+                    onClick={onClose} // Bấm vào overlay để đóng modal
+                />
+
                 <motion.div
                     initial={{ opacity: 0, y: -50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="w-[400px] bg-primary-white rounded-3xl p-12 flex flex-col items-center justify-center gap-6">
-                    <p className=" text-primary-black text-xl font-bold">Log In</p>
+                    className="relative w-full max-w-[400px] bg-primary-white rounded-3xl p-12 flex flex-col items-center justify-center gap-6">
+                    <p className=" text-primary-black text-xl font-bold">Đăng Nhập</p>
                     <InputCustom
                         type="text"
                         placeholder="Username"
@@ -53,12 +64,12 @@ const LoginPage = () => {
                         transform transition-all duration-300 hover:scale-105 cursor-pointer"
                         onClick={() => handleLogin()}
                     >
-                        Login
+                        Đăng Nhập
                     </button>
-                    <p className="text-primary-grey">Don’t have an account? Please <a onClick={() => handleGotoSignup()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Sign up</a></p>
+                    <p className="text-primary-grey">Bạn chưa có tài khoản? <a onClick={() => handleGotoSignup()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng ký ngay.</a></p>
                 </motion.div>
             </div>
         </>
     )
 }
-export default LoginPage
+export default LoginModal

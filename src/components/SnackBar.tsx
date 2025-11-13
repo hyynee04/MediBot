@@ -12,7 +12,7 @@ interface SidebarProps {
 const SideBar = ({ isOpenMenu, setIsOpenMenu, setListContent }: SidebarProps) => {
     const navigate = useNavigate()
     const handleGotoLogin = () => {
-        navigate(paths.login)
+        navigate(paths.root)
     }
     return (
         <div
@@ -39,13 +39,13 @@ const SideBar = ({ isOpenMenu, setIsOpenMenu, setListContent }: SidebarProps) =>
                 </div>
                 <div className={`flex-col h-full ${isOpenMenu ? 'flex' : 'hidden'}`}>
                     <p className="px-2 pb-2 text-primary-grey">Histories</p>
-                    <HistoryItem text="Đoạn chat số 1aaaaaaaaaaaaaaaaaaaaaaaa" />
+                    <HistoryItem text="Đoạn chat số 1" />
                     <HistoryItem text="Đoạn chat số 2" />
                     <HistoryItem text="Đoạn chat số 3" />
                 </div>
             </div>
             <div className="flex flex-col gap-4">
-                <span className="w-full h-px bg-stroke-grey" />
+                <span className={`w-full h-px ${isOpenMenu ? "bg-stroke-grey" : "bg-second-purple"}`} />
                 <div className="flex flex-row justify-between items-center">
                     <div className={`flex flex-row items-center gap-2 ${isOpenMenu ? 'block' : 'hidden'}`}>
                         <span className="p-2 bg-stroke-grey rounded-full">

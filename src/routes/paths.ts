@@ -1,5 +1,6 @@
 export const paths = {
     root: "/",
     login: "/login",
-    signup: "/signup"
+    signup: "/signup",
+    chatbot: "/chatbot"
 }

@@ -3,6 +3,7 @@ import QuestionItem from "../components/QuestionItem";
 import AnswerItem from "../components/AnswerItem";
 import { useState } from "react";
 import SideBar from "../components/SnackBar";
+import { motion } from "framer-motion";
 
 interface Content {
     id: number,
@@ -30,11 +31,15 @@ const ChatPage = () => {
     }
     return (
         <div className="w-screen h-screen flex flex-row bg-linear-to-b from-primary-white to-primary-purple">
-            <SideBar isOpenMenu={isOpenMenu} setIsOpenMenu={setIsOpenMenu} setListContent={()=>setListContent([])}/>
+            <SideBar isOpenMenu={isOpenMenu} setIsOpenMenu={setIsOpenMenu} setListContent={() => setListContent([])} />
             {isOpenMenu &&
                 <span className="fixed inset-0 bg-primary-white opacity-50 z-1 md:hidden" onClick={() => setIsOpenMenu(false)} />
             }
-            <div className="w-full h-screen flex flex-col items-center justify-end ">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="w-full h-screen flex flex-col items-center justify-end ">
                 <div className="w-full p-4 text-lg font-bold text-primary-black md:hidden flex flex-row justify-between items-center">
                     <div className="w-fit p-2 hover:bg-stroke-grey rounded-lg cursor-pointer" onClick={() => setIsOpenMenu(true)}>
                         <LuMenu size={18} />
@@ -73,7 +78,7 @@ const ChatPage = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     )
 }

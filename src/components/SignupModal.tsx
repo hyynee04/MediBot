@@ -1,37 +1,52 @@
-import { useNavigate } from "react-router-dom"
-import { paths } from "../routes/paths"
 import { motion } from "framer-motion"
-import InputCustom from "../components/InputCustom"
+import InputCustom from "./InputCustom"
 import { useState } from "react"
-
-const SignupPage = () => {
-    const navigate = useNavigate()
+interface SignUpModalProps {
+    onClose: () => void;
+    onOpenLogin: () => void;
+}
+const SignUpModal = ({ onClose, onOpenLogin }: SignUpModalProps) => {
     const [name, setName] = useState("")
+    const [mail, setMail] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [error, setError] = useState("")
     const handleSignup = () => {
-        navigate(paths.root)
     }
     const handleGotoLogin = () => {
-        navigate(paths.login)
+        onClose();
+        onOpenLogin();
     }
     return (
         <>
-            <div className="h-screen w-screen flex items-center justify-center bg-background-white">
+            <div className="fixed inset-0 z-50 flex items-center justify-center">
+                {/* Overlay xám mờ */}
+                <div
+                    className="absolute inset-0 bg-black/50"
+                    onClick={onClose} // Bấm vào overlay để đóng modal
+                />
                 <motion.div
                     initial={{ opacity: 0, y: -50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="w-[400px] bg-primary-white rounded-3xl p-12 flex flex-col items-center justify-center gap-6">
-                    <p className=" text-primary-black text-xl font-bold">Sign Up</p>
+                    className="relative w-full max-w-[400px] bg-primary-white rounded-3xl p-12 flex flex-col items-center justify-center gap-6">
+                    <p className=" text-primary-black text-xl font-bold">Đăng Ký</p>
                     <InputCustom
                         type="text"
                         placeholder="Name"
                         value={name}
                         onChange={(e) => {
                             setName(e.target.value)
+                            setError("")
+                        }}
+                    />
+                    <InputCustom
+                        type="text"
+                        placeholder="Mail"
+                        value={mail}
+                        onChange={(e) => {
+                            setMail(e.target.value)
                             setError("")
                         }}
                     />
@@ -64,15 +79,16 @@ const SignupPage = () => {
                     />
                     {error && <p className="w-full align-baseline text-primary-red">{error}</p>}
                     <button
+                        onClick={() => handleSignup()}
                         className="text-sm font-bold text-primary-white align-middle rounded-full 
                         bg-gradient-to-b from-primary-purple to-second-purple w-full p-4
                         transform transition-all duration-300 hover:scale-105 cursor-pointer">
-                        Signup
+                        Đăng Ký
                     </button>
-                    <p className="text-primary-grey">Already have an account? <a onClick={() => handleGotoLogin()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Log in</a></p>
+                    <p className="text-primary-grey">Bạn đã có tài khoản? <a onClick={() => handleGotoLogin()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng nhập.</a></p>
                 </motion.div>
             </div>
         </>
     )
 }
-export default SignupPage
+export default SignUpModal
