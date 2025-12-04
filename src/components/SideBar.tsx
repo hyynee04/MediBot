@@ -1,0 +1,169 @@
+import { LuPanelLeftClose, LuPanelLeftOpen, LuSquarePen, LuLogOut, LuUser } from "react-icons/lu";
+import HistoryItem from "./HistoryItem";
+import { useNavigate } from "react-router-dom";
+import { paths } from "../routes/paths";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../stores/store";
+import { logout } from "../stores/authenSlice";
+import { fetchCurrentUserInfo } from "../stores/userSlice";
+import { useEffect } from "react";
+import Tooltip from "./Tooltip";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
+import type { Conversation } from "../types/chatTypes";
+import { getConversationDetail } from "../stores/chatSlice";
+
+interface SidebarProps {
+  isOpenMenu: boolean;
+  setIsOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  onNewChat: () => void;
+  onDeleteConversation: (id: string) => void;
+};
+
+const SideBar = ({ isOpenMenu, setIsOpenMenu, onNewChat, onDeleteConversation }: SidebarProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { currentUser } = useSelector((state: RootState) => state.user);
+  const { listConversations, currentConversationId } = useSelector((state: RootState) => state.chat);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!currentUser) {
+      dispatch(fetchCurrentUserInfo());
+    }
+  }, [currentUser, dispatch]);
+
+  const handleLogout = async () => {
+    await dispatch(logout());
+    navigate(paths.root);
+  };
+
+  const handleSelectConversation = (id: string) => {
+    // Nếu đang ở cuộc trò chuyện này rồi thì không load lại
+    if (currentConversationId === id) return;
+
+    // Gọi API lấy tin nhắn
+    dispatch(getConversationDetail(id));
+  };
+
+  const sidebarVariants: Variants = {
+    open: {
+      width: "300px",
+      transition: { type: "spring", stiffness: 300, damping: 30 }
+    },
+    closed: {
+      width: "50px",
+      transition: { type: "spring", stiffness: 300, damping: 30, delay: 0.1 }
+    }
+  };
+
+  const textVariants: Variants = {
+    open: {
+      opacity: 1,
+      display: "block",
+      x: 0,
+      transition: { duration: 0.3, delay: 0.2 }
+    },
+    closed: {
+      opacity: 0,
+      x: -10,
+      transition: { duration: 0.05 },
+      transitionEnd: { display: "none" }
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className={`h-screen py-4 px-2 flex-col justify-between z-50 flex md:relative fixed overflow-hidden whitespace-nowrap transition-colors duration-300
+          ${isOpenMenu ? "bg-linear-to-t from-primary-white to-primary-purple" : "bg-transparent"} `}
+        initial={false}
+        animate={isOpenMenu ? "open" : "closed"}
+        variants={sidebarVariants}
+      >
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-row justify-between items-center">
+            <motion.p
+              variants={textVariants}
+              animate={isOpenMenu ? "open" : "closed"}
+              className="px-2 text-lg font-bold"
+            >MediBot</motion.p>
+            <div
+              className="w-fit p-2 hover:bg-stroke-grey rounded-lg cursor-pointer transition-colors duration-200"
+              onClick={() => setIsOpenMenu(!isOpenMenu)}
+            >
+              {isOpenMenu ? (
+                <LuPanelLeftClose size={18} />
+              ) : (
+                <LuPanelLeftOpen size={18} />
+              )}
+            </div>
+          </div>
+          <div
+            className={`p-2 flex-row items-center gap-2 hover:bg-stroke-grey rounded-lg cursor-pointer transition-colors duration-200
+            ${!isOpenMenu ? "hidden md:flex" : "flex"} 
+            `}
+            onClick={onNewChat}
+          >
+            <LuSquarePen size={18} />
+            <motion.p
+              variants={textVariants}
+              animate={isOpenMenu ? "open" : "closed"}
+              className="text-sm leading-tight"
+            >New chat</motion.p>
+          </div>
+          <motion.div
+            variants={textVariants}
+            animate={isOpenMenu ? "open" : "closed"}
+            className="flex flex-col h-full"
+          >
+            <p className="px-2 font-bold text-primary-black pb-2">Histories</p>
+            <div className="flex flex-col gap-1">
+              {listConversations.map((item: Conversation) => (
+                <HistoryItem
+                  key={item.idConversation}
+                  conversation={item}
+                  isActive={item.idConversation === currentConversationId}
+                  onSelectConversation={() => handleSelectConversation(item.idConversation)}
+                  onDelete={() => onDeleteConversation(item.idConversation)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <motion.hr
+            layout
+            className={`w-full border ${isOpenMenu ? "border-stroke-grey block" : "border-second-purple hidden md:block"}`}
+          />
+          <div className="flex flex-row justify-between items-center gap-2 w-full overflow-hidden">
+            <motion.div
+              variants={textVariants}
+              animate={isOpenMenu ? "open" : "closed"}
+              className="w-full flex-1 min-w-0"
+            >
+              <div className="flex flex-row items-center gap-2 w-full">
+                <span className="p-2 bg-stroke-grey rounded-full w-8 h-8 flex items-center justify-center shrink-0">
+                  <LuUser />
+                </span>
+                <div className="flex-1 min-w-0">
+                  <Tooltip content={currentUser?.fullName} position="top">
+                    <p className="text-sm truncate">{currentUser?.fullName}</p>
+                  </Tooltip>
+                </div>
+              </div>
+            </motion.div>
+            <div
+              className={`w-fit p-2 hover:bg-stroke-grey rounded-lg cursor-pointer transition-colors duration-200 shrink-0
+              ${!isOpenMenu ? "hidden md:block" : "block"}
+              `}
+              onClick={handleLogout}
+            >
+              <LuLogOut size={18} />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </AnimatePresence >
+  )
+}
+export default SideBar

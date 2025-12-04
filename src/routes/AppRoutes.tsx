@@ -1,19 +1,22 @@
 import { Route, Routes } from "react-router-dom";
 import { paths } from "./paths";
 import ChatPage from "../pages/ChatPage";
-import LoginModal from "../components/LoginModal";
-import SignUpModal from "../components/SignupModal";
 import HomePage from "../pages/HomePage";
+import ProtectedRoute from "./ProtectedRoutes";
 
 const AppRoutes = () => {
-    return (
-        <Routes>
-            <Route path={paths.root} element={<HomePage />} />
-            <Route path={paths.login} element={<LoginModal />} />
-            <Route path={paths.signup} element={<SignUpModal />} />
-            <Route path={paths.chatbot} element={<ChatPage />} />
-        </Routes>
-    );
+  return (
+    <Routes>
+      <Route path={paths.root} element={<HomePage />} />
+      <Route path={paths.login} element={<HomePage />} />
+      <Route path={paths.signup} element={<HomePage />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route path={paths.chatbot} element={<ChatPage />} />
+      </Route>
+
+    </Routes>
+  );
 }
 
 export default AppRoutes
