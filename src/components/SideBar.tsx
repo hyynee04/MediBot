@@ -109,14 +109,14 @@ const SideBar = ({ isOpenMenu, setIsOpenMenu, onNewChat, onDeleteConversation }:
               variants={textVariants}
               animate={isOpenMenu ? "open" : "closed"}
               className="text-sm leading-tight"
-            >New chat</motion.p>
+            >Cuộc trò chuyện mới</motion.p>
           </div>
           <motion.div
             variants={textVariants}
             animate={isOpenMenu ? "open" : "closed"}
             className="flex flex-col h-full"
           >
-            <p className="px-2 font-bold text-primary-black pb-2">Histories</p>
+            <p className="px-2 font-bold text-primary-black pb-2">Lịch sử</p>
             <div className="flex flex-col gap-1">
               {listConversations.map((item: Conversation, index: number) => (
                 <motion.div

@@ -64,7 +64,7 @@ const ChatInput = () => {
           onChange={handleInput}
           onKeyDown={handleKeyDown}
           rows={1} // Mặc định 1 dòng
-          placeholder="Ask me..."
+          placeholder="Hỏi MediBot..."
           className="
             text-primary-black text-sm w-full bg-transparent
             resize-none 

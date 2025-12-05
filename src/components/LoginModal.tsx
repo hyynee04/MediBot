@@ -124,10 +124,10 @@ const LoginModal = ({ isOpen, onClose, onOpenSignup }: LoginModalProps) => {
               handleLogin();
             }}
           >
-            <p className=" text-primary-black text-xl font-bold">Login</p>
+            <p className=" text-primary-black text-xl font-bold">Đăng nhập</p>
             <InputCustom
               type="text"
-              placeholder="Username"
+              placeholder="Tên đăng nhập"
               value={form.username}
               onChange={(e) => handleChange("username", e.target.value)}
               disabled={loading}
@@ -135,7 +135,7 @@ const LoginModal = ({ isOpen, onClose, onOpenSignup }: LoginModalProps) => {
             <div className="relative w-full">
               <InputCustom
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 value={form.password}
                 onChange={(e) => handleChange("password", e.target.value)}
                 disabled={loading}
@@ -162,7 +162,7 @@ const LoginModal = ({ isOpen, onClose, onOpenSignup }: LoginModalProps) => {
             >
               {loading ? "Đang xử lý..." : "Đăng Nhập"}
             </button>
-            <p className="text-primary-grey">Not having an account yet? <a onClick={() => handleGotoSignup()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng ký ngay.</a></p>
+            <p className="text-primary-grey">Chưa có tài khoản? <a onClick={() => handleGotoSignup()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng ký ngay.</a></p>
           </motion.form>
         </div>
       )}

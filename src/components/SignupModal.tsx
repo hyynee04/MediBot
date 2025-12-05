@@ -130,24 +130,24 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
               handleSignup();
             }}
           >
-            <p className=" text-primary-black text-xl font-bold">Sign Up</p>
+            <p className=" text-primary-black text-xl font-bold">Đăng ký</p>
             <InputCustom
               type="text"
-              placeholder="Name"
+              placeholder="Tên hiển thị"
               value={form.name}
               onChange={(e) => handleChange("name", e.target.value)}
               disabled={loading}
             />
             <InputCustom
               type="text"
-              placeholder="Mail"
+              placeholder="Email"
               value={form.mail}
               onChange={(e) => handleChange("mail", e.target.value)}
               disabled={loading}
             />
             <InputCustom
               type="text"
-              placeholder="Username"
+              placeholder="Tên đăng nhập"
               value={form.username}
               onChange={(e) => handleChange("username", e.target.value)}
               disabled={loading}
@@ -155,7 +155,7 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
             <div className="relative w-full">
               <InputCustom
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 value={form.password}
                 onChange={(e) => handleChange("password", e.target.value)}
                 disabled={loading}
@@ -176,7 +176,7 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
             <div className="relative w-full">
               <InputCustom
                 type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirm pasword"
+                placeholder="Xác nhận mật khẩu"
                 value={form.confirmPassword}
                 onChange={(e) => handleChange("confirmPassword", e.target.value)}
                 disabled={loading}
@@ -203,7 +203,7 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
                         transform transition-all duration-300 hover:scale-105 cursor-pointer">
               {loading ? "Processing..." : "Sign up"}
             </button>
-            <p className="text-primary-grey">Already have an account? <a onClick={() => handleGotoLogin()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng nhập.</a></p>
+            <p className="text-primary-grey">Đã có tài khoản? <a onClick={() => handleGotoLogin()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng nhập.</a></p>
           </motion.form>
         </div>
       )}
