@@ -1,9 +1,8 @@
-import { LuSquarePen, LuMenu } from "react-icons/lu";
 import QuestionItem from "../components/QuestionItem";
 import AnswerItem from "../components/AnswerItem";
 import { useEffect, useRef, useState } from "react";
 import SideBar from "../components/SideBar";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../stores/store";
 import { deleteConversation, fetchConversations, resetCurrentConversation } from "../stores/chatSlice";

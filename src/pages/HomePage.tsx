@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LuCircleCheck, LuBotMessageSquare, LuZap } from "react-icons/lu";
 import MediImg from "../assets/medi_img.png"
 import FeatureCard from '../components/FeatureCard';
