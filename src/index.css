@@ -50,7 +50,7 @@ body {
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--color-background-white);
+    background-color: rgba(175, 176, 226, 0.7);
     /* blue-400 */
     border-radius: 9999px;
   }
