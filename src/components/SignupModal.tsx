@@ -203,7 +203,7 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
                         transform transition-all duration-300 hover:scale-105 cursor-pointer">
               {loading ? "Processing..." : "Sign up"}
             </button>
-            <p className="text-primary-grey">Not having an account yet? <a onClick={() => handleGotoLogin()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng nhập.</a></p>
+            <p className="text-primary-grey">Already have an account? <a onClick={() => handleGotoLogin()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng nhập.</a></p>
           </motion.form>
         </div>
       )}

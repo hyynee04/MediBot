@@ -124,7 +124,7 @@ const LoginModal = ({ isOpen, onClose, onOpenSignup }: LoginModalProps) => {
               handleLogin();
             }}
           >
-            <p className=" text-primary-black text-xl font-bold">Đăng Nhập</p>
+            <p className=" text-primary-black text-xl font-bold">Login</p>
             <InputCustom
               type="text"
               placeholder="Username"
@@ -162,7 +162,7 @@ const LoginModal = ({ isOpen, onClose, onOpenSignup }: LoginModalProps) => {
             >
               {loading ? "Đang xử lý..." : "Đăng Nhập"}
             </button>
-            <p className="text-primary-grey">Bạn chưa có tài khoản? <a onClick={() => handleGotoSignup()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng ký ngay.</a></p>
+            <p className="text-primary-grey">Not having an account yet? <a onClick={() => handleGotoSignup()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng ký ngay.</a></p>
           </motion.form>
         </div>
       )}
