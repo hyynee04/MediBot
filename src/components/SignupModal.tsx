@@ -188,7 +188,7 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
                       hover:text-primary-black hover:bg-stroke-grey "
                 onClick={(e) => {
                   e.stopPropagation();
-                  setShowPassword(!showConfirmPassword);
+                  setShowConfirmPassword(!showConfirmPassword);
                 }}
               >
                 {showConfirmPassword ? <LuEyeOff size={18} /> : <LuEye size={18} />}

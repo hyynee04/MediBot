@@ -8,7 +8,7 @@ import type { BaseFormState, LoginRequest } from "../types/authenTypes"
 import type { AppDispatch, RootState } from "../stores/store"
 import { useDispatch, useSelector } from "react-redux"
 import { clearAuthError, login } from "../stores/authenSlice"
-import { LuEye, LuEyeOff, LuTrash2 } from "react-icons/lu"
+import { LuEye, LuEyeOff } from "react-icons/lu"
 
 interface LoginModalProps {
   isOpen: boolean;
