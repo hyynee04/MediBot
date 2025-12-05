@@ -3,7 +3,7 @@ import type { AxiosError, AxiosResponse } from "axios";
 import { paths } from "../routes/paths";
 
 const axiosClient = axios.create({
-  baseURL: "https://localhost:7290",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 

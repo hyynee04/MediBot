@@ -118,14 +118,21 @@ const SideBar = ({ isOpenMenu, setIsOpenMenu, onNewChat, onDeleteConversation }:
           >
             <p className="px-2 font-bold text-primary-black pb-2">Histories</p>
             <div className="flex flex-col gap-1">
-              {listConversations.map((item: Conversation) => (
-                <HistoryItem
+              {listConversations.map((item: Conversation, index: number) => (
+                <motion.div
                   key={item.idConversation}
-                  conversation={item}
-                  isActive={item.idConversation === currentConversationId}
-                  onSelectConversation={() => handleSelectConversation(item.idConversation)}
-                  onDelete={() => onDeleteConversation(item.idConversation)}
-                />
+                  initial={{ opacity: 0, x: -25 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut", delay: index * 0.1 }}
+                >
+                  <HistoryItem
+                    conversation={item}
+                    isActive={item.idConversation === currentConversationId}
+                    onSelectConversation={() => handleSelectConversation(item.idConversation)}
+                    onDelete={() => onDeleteConversation(item.idConversation)}
+                  />
+                </motion.div>
+
               ))}
             </div>
           </motion.div>

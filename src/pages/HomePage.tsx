@@ -21,8 +21,6 @@ const HomePage: React.FC = () => {
 
   const handleSwitchToSignup = () => navigate("/signup");
   const handleSwitchToLogin = () => navigate("/login");
-  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  // const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
   return (
     <>
@@ -84,7 +82,7 @@ const HomePage: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
           >
             <h2 className="text-4xl font-bold text-center text-primary-black mb-12">

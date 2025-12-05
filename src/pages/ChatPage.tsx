@@ -117,8 +117,20 @@ const ChatPage = () => {
           })}
 
           {sending && (
-            <div className="self-start ml-2">
-              <p className="text-sm text-gray-500 italic">MediBot đang trả lời...</p>
+            <div className="self-start flex flex-row items-end gap-1 min-h-6">
+              <p className="text-sm text-primary-grey italic leading-none">MediBot đang trả lời</p>
+
+              {/* Container chứa 3 dấu chấm động */}
+              <div className="flex flex-row gap-1 mb-1">
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={i}
+                    className="w-[3px] h-[3px] bg-primary-grey rounded-full"
+                    animate={{ y: [0, -2, 0] }} // Di chuyển: Gốc -> Lên 4px -> Về Gốc
+                    transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>
