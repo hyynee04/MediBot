@@ -19,33 +19,49 @@ const AnswerItem = ({ answer }: AnswerItemProps) => {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
-            // Tùy chỉnh thẻ <ul> (Danh sách)
+            // --- CẤU HÌNH MỚI CHO LINK (THẺ a) ---
+            a: ({ href, children }) => (
+              <a
+                href={href}
+                target="_blank"             // Mở tab mới
+                rel="noopener noreferrer"   // Bảo mật khi mở tab mới
+                className="text-blue-600 underline hover:text-blue-800 transition-colors duration-200 cursor-pointer"
+                onClick={(e) => e.stopPropagation()} // Ngăn click lan ra ngoài nếu cần
+              >
+                {children}
+              </a>
+            ),
+
+            // Tùy chỉnh thẻ <ul>
             ul: ({ children }) => <ul className="list-disc pl-5 mb-3 space-y-1">{children}</ul>,
 
-            // Tùy chỉnh thẻ <li> (Mục danh sách)
+            // Tùy chỉnh thẻ <li>
             li: ({ children }) => <li className="pl-1 marker:text-primary-purple">{children}</li>,
 
-            // Tùy chỉnh thẻ <strong> (In đậm) - Hack để làm tiêu đề màu tím
+            // Tùy chỉnh thẻ <strong>
             strong: ({ children }) => {
               const text = String(children);
-              // Kiểm tra nếu là mục lớn (VD: "1. Phân tích...")
               if (/^[0-9]+\./.test(text)) {
-                return <span className="block text-primary-purple font-bold text-base mt-4 mb-2">{children}</span>;
+                return <span className="block text-primary-black font-semibold text-base mt-4 mb-2">{children}</span>;
               }
-              return <strong className="font-bold text-gray-900">{children}</strong>;
+              return <strong className="font-semibold text-gray-900">{children}</strong>;
             },
 
-            // Tùy chỉnh thẻ <p> (Đoạn văn)
+            // Xử lý thêm thẻ H3 (###) vì trong ví dụ data của bạn có dùng "### 1. Kết luận..."
+            h3: ({ children }) => (
+              <h3 className="block text-primary-black font-bold text-base mt-4 mb-2">{children}</h3>
+            ),
+
+            // Tùy chỉnh thẻ <p>
             p: ({ children }) => {
               const text = String(children);
-              // Kiểm tra nếu là Disclaimer cuối cùng
               if (text.includes("Disclaimer") || text.includes("Tham khảo ý kiến bác sĩ")) {
                 return <p className="text-xs text-gray-400 italic mt-4 border-t border-dashed pt-2">{children}</p>;
               }
               return <p className="mb-2 last:mb-0">{children}</p>;
             },
 
-            // Tùy chỉnh đường kẻ ngang
+            // Tùy chỉnh thẻ <hr>
             hr: () => <hr className="my-4 border-dashed border-gray-300" />
           }}
         >
