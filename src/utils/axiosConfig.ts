@@ -5,6 +5,10 @@ import { paths } from "../routes/paths";
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true'
+  }
 });
 
 // 1. Tạo biến local để giữ store
