@@ -25,19 +25,23 @@ export const login = createAsyncThunk(
   async (payload: LoginRequest, { rejectWithValue, dispatch }) => {
     try {
       const res = await authenService.login(payload);
-      const token = res.data.data.token;
 
+      // --- XỬ LÝ THÀNH CÔNG ---
+      const token = res.data.data.token;
       localStorage.setItem("token", token);
 
       await dispatch(fetchCurrentUserInfo()).unwrap();
       await dispatch(fetchConversations()).unwrap();
-      // Chỉ cần return token cho authSlice quản lý
+
       return token;
+
     } catch (err: any) {
-      const errorMsg =
-        err.response?.data?.data || err.response?.data?.message || "Something happened. Please try again!";
-      localStorage.removeItem("token");
-      return rejectWithValue(errorMsg);
+      console.log(err);
+
+      if (err.data && err.data.data) {
+        return rejectWithValue(err.data.data || "Something happened. Please try again!");
+      }
+      return rejectWithValue("Something happened. Please try again!");
     }
   }
 );
@@ -50,7 +54,7 @@ export const signup = createAsyncThunk(
       return true;
     } catch (err: any) {
       const errorMsg =
-        err.response?.data?.data || err.response?.data?.message || "Something happened. Please try again!";
+        err?.data?.data || "Something happened. Please try again!";
       return rejectWithValue(errorMsg);
     }
   }
@@ -70,7 +74,7 @@ export const logout = createAsyncThunk(
       return true;
     } catch (err: any) {
       dispatch(resetAuth()); // Lỗi cũng reset luôn
-      return rejectWithValue(err.response?.data?.message);
+      return rejectWithValue(err.data?.data);
     }
   }
 );

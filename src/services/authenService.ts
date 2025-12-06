@@ -17,6 +17,7 @@ export const authenService = {
       `${USER_BASE_URL}/SignUp`,
       {
         FullName: data.name,
+        Email: data.mail,
         Username: data.username,
         Password: data.password
       }

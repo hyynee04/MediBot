@@ -9,6 +9,7 @@ interface ChatState {
   currentConversationId: string | null;
   loading: boolean;
   sending: boolean;
+  sendingError: string | null;
   deleting: boolean;
   error: string | null;
 }
@@ -19,6 +20,7 @@ const initialState: ChatState = {
   currentConversationId: null,
   loading: false,
   sending: false,
+  sendingError: null,
   deleting: false,
   error: null,
 }
@@ -49,9 +51,9 @@ export const fetchConversations = createAsyncThunk(
 
       return data;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch departments"
-      );
+      const errMsg = error.data?.message || "Đã xảy ra lỗi khi lấy các cuộc hội thoại!"
+      console.error(errMsg);
+      return rejectWithValue(errMsg);
     }
   }
 )
@@ -70,11 +72,13 @@ export const sendMessage = createAsyncThunk(
       dispatch(fetchConversations())
 
       return {
-        botMessage: res.data.data, // Message trả về từ AI
-        isNewConversation: data.idConversation === null // Flag để check xem có phải chat mới không
+        botMessage: res.data.data,
+        isNewConversation: data.idConversation === null
       };
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to send message");
+      const errMsg = error.data?.message || "Đã xảy ra lỗi khi gửi tin"
+      console.error(errMsg);
+      return rejectWithValue(errMsg);
     }
   }
 );
@@ -90,7 +94,9 @@ export const getConversationDetail = createAsyncThunk(
       }
       return res.data.data; // Trả về mảng Message[]
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Lỗi tải nội dung chat");
+      const errMsg = error.data?.data || "Lỗi tải nội dung chat"
+      console.error(errMsg);
+      return rejectWithValue(errMsg);
     }
   }
 );
@@ -107,7 +113,7 @@ export const deleteConversation = createAsyncThunk(
 
       return rejectWithValue("Xóa thất bại, trạng thái không hợp lệ");
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Lỗi xóa cuộc hội thoại");
+      return rejectWithValue(error.data?.data || "Lỗi xóa cuộc hội thoại");
     }
   }
 )
@@ -120,7 +126,7 @@ export const chatSlice = createSlice({
     resetCurrentConversation: (state) => {
       state.currentConversationId = null;
       state.currentConversation = [];
-      state.error = null;
+      state.sendingError = null;
     },
     // Action để chọn 1 cuộc hội thoại từ Sidebar
     setActiveConversation: (state, action: PayloadAction<string>) => {
@@ -146,7 +152,7 @@ export const chatSlice = createSlice({
       // --- sendMessage ---
       .addCase(sendMessage.pending, (state, action) => {
         state.sending = true;
-        state.error = null;
+        state.sendingError = null;
 
         const { messageContent, idConversation } = action.meta.arg;
 
@@ -198,16 +204,16 @@ export const chatSlice = createSlice({
       })
       .addCase(sendMessage.rejected, (state, action) => {
         state.sending = false;
-        state.error = action.payload as string;
+        state.sendingError = action.payload as string;
       })
 
       // --- getConversationDetail ---
       .addCase(getConversationDetail.pending, (state, action) => {
         state.loading = true;
         state.error = null;
+        state.sendingError = null;
         // Cập nhật ID ngay lập tức để UI Sidebar highlight item đang chọn
         state.currentConversationId = action.meta.arg;
-        // Tùy chọn: Xóa tin nhắn cũ để hiện loading hoặc giữ lại
         state.currentConversation = [];
       })
       .addCase(getConversationDetail.fulfilled, (state, action) => {

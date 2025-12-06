@@ -45,6 +45,8 @@ const LoginModal = ({ isOpen, onClose, onOpenSignup }: LoginModalProps) => {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+
+    dispatch(clearAuthError());
   };
 
   const getFormError = () => {
