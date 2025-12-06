@@ -53,9 +53,9 @@ const ChatInput = () => {
   }
 
   return (
-    <div className="lg:w-[720px] w-full p-4 bg-transparent backdrop-blur-md">
+    <div className="lg:w-[720px] w-full pb-4 px-4 bg-transparent backdrop-blur-md">
       <div
-        className="rounded-3xl bg-background-white/50 backdrop-blur-md flex flex-row items-end p-2 gap-2 border border-stroke-grey shadow-sm
+        className="rounded-3xl bg-background-white/50 backdrop-blur-md flex flex-row items-end p-2 gap-2 shadow-sm
       transition-all duration-200 ease-in-out focus-within:shadow-basic"
       >
         <textarea
