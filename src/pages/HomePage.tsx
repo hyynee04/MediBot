@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LuCircleCheck, LuBotMessageSquare, LuZap } from "react-icons/lu";
 import MediImg from "../assets/medi_img.png"
 import FeatureCard from '../components/FeatureCard';
@@ -21,6 +21,13 @@ const HomePage: React.FC = () => {
 
   const handleSwitchToSignup = () => navigate("/signup");
   const handleSwitchToLogin = () => navigate("/login");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate(paths.chatbot);
+    }
+  }, [navigate]);
 
   return (
     <>

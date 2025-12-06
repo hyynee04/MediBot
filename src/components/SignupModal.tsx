@@ -48,6 +48,8 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
 
+    dispatch(clearAuthError());
+
     // Nếu đang sửa password, ta nên xóa luôn lỗi của verifiedPassword (nếu có)
     if (name === "password") {
       setErrors((prev) => ({ ...prev, verifiedPassword: "" }));
@@ -55,6 +57,8 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
   };
 
   const getFormError = () => {
+    if (authError) return authError;
+
     const errorKeys = Object.keys(errors) as Array<keyof FormState>;
     const firstActiveErrorKey = errorKeys.find(key => errors[key]);
     return firstActiveErrorKey ? errors[firstActiveErrorKey] : "";
@@ -201,7 +205,7 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
               className="text-sm font-bold text-primary-white align-middle rounded-full 
                         bg-linear-to-b from-primary-purple to-second-purple w-full p-4
                         transform transition-all duration-300 hover:scale-105 cursor-pointer">
-              {loading ? "Processing..." : "Sign up"}
+              {loading ? "Đang xử lý..." : "Đăng ký"}
             </button>
             <p className="text-primary-grey">Đã có tài khoản? <a onClick={() => handleGotoLogin()} className=" transform transition-all duration-300 font-bold hover:underline cursor-pointer">Đăng nhập.</a></p>
           </motion.form>

@@ -10,27 +10,42 @@ import ChatInput from "../components/ChatInput";
 import type { Message } from "../types/chatTypes";
 import ChatSkeleton from "../components/ChatSkeleton";
 import ConfirmModal from "../components/ConfirmModal";
+import { LuCircleAlert } from "react-icons/lu";
+import { fetchCurrentUserInfo } from "../stores/userSlice";
 
 const ChatPage = () => {
-  const [isOpenMenu, setIsOpenMenu] = useState(true);
+  const [isOpenMenu, setIsOpenMenu] = useState(window.innerWidth >= 768);
   const [showConfirm, setShowConfirm] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const dispatch = useDispatch<AppDispatch>();
-  const { listConversations, currentConversation, currentConversationId, sending, loading, deleting } = useSelector((state: RootState) => state.chat);
+  const { token } = useSelector((state: RootState) => state.authen);
+  const { currentUser } = useSelector((state: RootState) => state.user);
+  const { listConversations, currentConversation, currentConversationId, sending, loading, deleting, sendingError } = useSelector((state: RootState) => state.chat);
 
   const isInputCentered = currentConversationId === null && currentConversation.length === 0;
 
   useEffect(() => {
-    if (listConversations?.length <= 0) {
-      dispatch(fetchConversations());
-    }
-  }, [dispatch]);
+    const initData = async () => {
+      // Chỉ fetch nếu chưa có dữ liệu
+      const promises = [];
+      if (token && !currentUser) {
+        promises.push(dispatch(fetchCurrentUserInfo()).unwrap());
+      }
+      if (token && listConversations.length === 0) {
+        promises.push(dispatch(fetchConversations()).unwrap());
+      }
+      // Đợi tất cả fetch xong (hoặc lỗi cũng cho qua để vào trang)
+      await Promise.allSettled(promises);
+      // Tắt màn hình loading
+      setIsInitialLoading(false);
+    };
+
+    initData();
+  }, [token, dispatch]);
 
   const lastQuestionRef = useRef<HTMLDivElement>(null);
-
-  // Dùng ref ảo ở cuối trang để scroll chuẩn hơn
-  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!loading && lastQuestionRef.current) {
@@ -43,6 +58,9 @@ const ChatPage = () => {
 
   const handleNewChat = () => {
     dispatch(resetCurrentConversation());
+    if (window.innerWidth < 768) {
+      setIsOpenMenu(false);
+    }
   }
 
   const handleDeleteRequest = (id: string) => {
@@ -63,7 +81,7 @@ const ChatPage = () => {
     if (loading) {
       return (
         <motion.div
-          className="absolute inset-0 w-full h-full flex justify-center border border-amber-400"
+          className="absolute inset-0 w-full h-full flex justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.2 }}
@@ -137,10 +155,31 @@ const ChatPage = () => {
               </div>
             </div>
           )}
+
+          {sendingError !== null && (
+            <div className="w-full self-start flex flex-col gap-1 mt-2 animate-fadeIn">
+              {/* Dòng thông báo lỗi */}
+              <div className="flex flex-row items-center gap-2 text-primary-red p-2 rounded-lg w-fit">
+                <LuCircleAlert size={16} className="shrink-0" />
+                <p className="text-sm italic">{sendingError}</p>
+              </div>
+            </div>
+          )}
         </div>
       </motion.div>
     );
   };
+
+  if (isInitialLoading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center bg-background-white">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-primary-purple border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-primary-grey animate-pulse">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

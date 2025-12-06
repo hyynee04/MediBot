@@ -24,7 +24,9 @@ export const fetchCurrentUserInfo = createAsyncThunk(
       const res = await userService.getCurrentUserInfo();
       return res.data.data || null; // Trả về object User
     } catch (err: any) {
-      return rejectWithValue(err.response?.data?.message || "Fetch user failed");
+      const errMsg = err.data?.data || "Lỗi tải thông tin người dùng"
+      console.error(errMsg);
+      return rejectWithValue(errMsg);
     }
   }
 );

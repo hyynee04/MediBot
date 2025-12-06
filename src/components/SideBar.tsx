@@ -26,12 +26,6 @@ const SideBar = ({ isOpenMenu, setIsOpenMenu, onNewChat, onDeleteConversation }:
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!currentUser) {
-      dispatch(fetchCurrentUserInfo());
-    }
-  }, [currentUser, dispatch]);
-
   const handleLogout = async () => {
     await dispatch(logout());
     navigate(paths.root);
@@ -39,10 +33,12 @@ const SideBar = ({ isOpenMenu, setIsOpenMenu, onNewChat, onDeleteConversation }:
 
   const handleSelectConversation = (id: string) => {
     // Nếu đang ở cuộc trò chuyện này rồi thì không load lại
-    if (currentConversationId === id) return;
+    if (currentConversationId !== id)
+      dispatch(getConversationDetail(id));
 
-    // Gọi API lấy tin nhắn
-    dispatch(getConversationDetail(id));
+    if (window.innerWidth < 768) {
+      setIsOpenMenu(false);
+    }
   };
 
   const sidebarVariants: Variants = {
@@ -81,14 +77,19 @@ const SideBar = ({ isOpenMenu, setIsOpenMenu, onNewChat, onDeleteConversation }:
         variants={sidebarVariants}
       >
         <div className="flex flex-col gap-4">
-          <div className="flex flex-row justify-between items-center">
-            <motion.p
-              variants={textVariants}
-              animate={isOpenMenu ? "open" : "closed"}
-              className="px-2 text-lg font-bold"
-            >MediBot</motion.p>
+          <div className={`flex flex-row items-center h-10 ${isOpenMenu ? "justify-between" : "justify-center"}`}>
+            {isOpenMenu && (
+              <motion.p
+                variants={textVariants}
+                initial="closed"
+                animate="open"
+                className="px-2 text-lg font-bold whitespace-nowrap"
+              >
+                MediBot
+              </motion.p>
+            )}
             <div
-              className="w-fit p-2 hover:bg-stroke-grey rounded-lg cursor-pointer transition-colors duration-200"
+              className="p-2 hover:bg-stroke-grey rounded-lg cursor-pointer transition-colors duration-200 shrink-0"
               onClick={() => setIsOpenMenu(!isOpenMenu)}
             >
               {isOpenMenu ? (
