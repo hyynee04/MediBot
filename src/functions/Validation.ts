@@ -8,29 +8,29 @@ export const validateField = (name: string, value: string, formData: BaseFormSta
 
   switch (name) {
     case "name":
-      if (!val) msg = "Missing name";
+      if (!val) msg = "Thiếu Tên hiển thị";
       break;
 
     case "mail":
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!val) msg = "Missing email";
-      else if (!emailRegex.test(val)) msg = "Email is not valid";
+      if (!val) msg = "Thiếu Email";
+      else if (!emailRegex.test(val)) msg = "Email không hợp lệ";
       break;
 
     case "username":
-      if (!val) msg = "Missing username";
+      if (!val) msg = "Thiếu Tên đăng nhập";
       // Lưu ý: Sửa lỗi logic cũ (dùng val thay vì form[name])
-      else if (/\s/.test(val)) msg = "Username must not have space";
+      else if (/\s/.test(val)) msg = "Tên đăng nhập không được có khoảng trống";
       break;
 
     case "password":
       if (!val) msg = "Missing password";
-      else if (val.length < MIN_PASSWORD_LEN) msg = `Password must have at least ${MIN_PASSWORD_LEN} characters`;
+      else if (val.length < MIN_PASSWORD_LEN) msg = `Mật khẩu phải chứa ít nhất ${MIN_PASSWORD_LEN} kí tự`;
       break;
 
     case "confirmPassword":
-      if (!val) msg = "Missing confirm password";
-      else if (val !== formData.password) msg = "Confirm password is not right";
+      if (!val) msg = "Thiếu Xác nhận mật khẩu";
+      else if (val !== formData.password) msg = "Xác nhận mật khẩu không trùng khớp";
       break;
 
     default:

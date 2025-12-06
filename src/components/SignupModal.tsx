@@ -198,7 +198,7 @@ const SignUpModal = ({ isOpen, onClose, onOpenLogin }: SignUpModalProps) => {
                 {showConfirmPassword ? <LuEyeOff size={18} /> : <LuEye size={18} />}
               </button>
             </div>
-            <p className="w-full align-baseline text-primary-red">{getFormError()}</p>
+            <p className="w-full align-baseline text-primary-red text-sm">{getFormError()}</p>
             <button
               disabled={loading}
               type="submit"
