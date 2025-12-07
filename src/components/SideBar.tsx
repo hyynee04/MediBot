@@ -110,7 +110,7 @@ const SideBar = ({ isOpenMenu, setIsOpenMenu, onNewChat, onDeleteConversation }:
               variants={textVariants}
               animate={isOpenMenu ? "open" : "closed"}
               className="text-sm leading-tight"
-            >Cuộc trò chuyện mới</motion.p>
+            >Cuộc hội thoại mới</motion.p>
           </div>
           <motion.div
             variants={textVariants}

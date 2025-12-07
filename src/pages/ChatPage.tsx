@@ -195,31 +195,30 @@ const ChatPage = () => {
         }
 
         {/* MAIN CONTAINER: Relative để chứa các lớp con Absolute */}
+        {/* MAIN CONTAINER: Relative để chứa các lớp con Absolute */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="flex-1 h-full relative flex flex-col overflow-hidden"
         >
-          <div className="absolute inset-0 z-0">
+          <div className="flex-1 overflow-hidden relative z-0">
             <AnimatePresence mode='popLayout'>
               {renderContent()}
             </AnimatePresence>
           </div>
 
           {!isInputCentered && (
-            <div className="absolute bottom-0 w-full h-32 bg-linear-to-t from-background-white via-background-white/90 to-transparent pointer-events-none z-10" />
+            <div className="absolute bottom-20 w-full h-12 bg-linear-to-t from-background-white via-background-white/90 to-transparent pointer-events-none z-10" />
           )}
 
           <motion.div
-            // Luôn đặt ở vị trí đáy màn hình làm gốc
-            className="absolute bottom-0 w-full z-20 flex justify-center pointer-events-none will-change-transform"
+            className="w-full z-20 flex justify-center shrink-0 bg-background-white"
             animate={{
               y: isInputCentered ? "-40vh" : "0px"
             }}
-            // Spring animation mượt mà
             transition={{ type: "tween", stiffness: 300, damping: 35 }}
           >
-            <div className="w-full flex justify-center pointer-events-auto">
+            <div className="w-full flex justify-center">
               <ChatInput />
             </div>
           </motion.div>
