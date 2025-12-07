@@ -12,6 +12,13 @@ const ChatInput = () => {
   // Lấy ID cuộc trò chuyện hiện tại (null nếu là New Chat)
   const { currentConversationId, sending } = useSelector((state: RootState) => state.chat);
 
+  useEffect(() => {
+    setInputVal("");
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
+  }, [currentConversationId]);
+
   // Hàm tự động chỉnh chiều cao
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -66,7 +73,7 @@ const ChatInput = () => {
           rows={1} // Mặc định 1 dòng
           placeholder="Hỏi MediBot..."
           className="
-            text-primary-black text-sm w-full bg-transparent
+            text-primary-black w-full bg-transparent
             resize-none 
             overflow-y-auto 
             max-h-[120px]
